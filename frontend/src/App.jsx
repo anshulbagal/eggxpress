@@ -15,7 +15,6 @@ import './index.css';
 
 function App() {
   const [cartOpen, setCartOpen] = useState(false);
-
   return (
     <CartProvider>
       <Router>

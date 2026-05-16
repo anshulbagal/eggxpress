@@ -18,8 +18,8 @@ const About = () => (
         <div className="about-text">
           <h2>Born on the Streets of Mumbai 🌆</h2>
           <p>
-            EggXpress started in 2015 as a humble street stall in Dadar, Mumbai. Our founder Rajan Mehta
-            had a simple dream: to serve the most delicious egg rolls the city had ever tasted — made with
+            EggXpress started in 2023 as a humble street stall in Nagpur,Maharashtra.We had a simple dream: to 
+            serve the most delicious egg rolls the city had ever tasted — made with
             the freshest ingredients and cooked with pure passion.
           </p>
           <p>
@@ -28,7 +28,7 @@ const About = () => (
           </p>
           <div className="about-stats">
             <div className="a-stat"><span className="a-num">9+</span><span>Years of Service</span></div>
-            <div className="a-stat"><span className="a-num">50K+</span><span>Customers Served</span></div>
+            <div className="a-stat"><span className="a-num">5K+</span><span>Customers Served</span></div>
             <div className="a-stat"><span className="a-num">15+</span><span>Locations</span></div>
           </div>
         </div>
