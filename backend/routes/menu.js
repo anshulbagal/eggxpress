@@ -1,6 +1,41 @@
 const express = require('express');
 const router = express.Router();
 const MenuItem = require('../models/MenuItem');
+const { protect, adminOnly } = require('../middleware/auth');
+const { body, validationResult } = require('express-validator');
+
+// ── Validation Rules ────────────────────────────────────────────────────────
+const menuItemRules = [
+  body('name')
+    .trim()
+    .notEmpty().withMessage('Item name is required')
+    .isLength({ max: 100 }).withMessage('Item name must be under 100 characters'),
+  body('description')
+    .trim()
+    .notEmpty().withMessage('Description is required')
+    .isLength({ max: 500 }).withMessage('Description must be under 500 characters'),
+  body('price')
+    .isFloat({ min: 1 }).withMessage('Price must be a positive number'),
+  body('category')
+    .trim()
+    .notEmpty().withMessage('Category is required')
+    .isIn(['egg-rolls', 'chicken-rolls', 'egg-bowls', 'rice', 'burgers', 'drinks'])
+    .withMessage('Invalid category specified'),
+  body('image')
+    .trim()
+    .notEmpty().withMessage('Image URL is required')
+    .isURL().withMessage('Please enter a valid Image URL'),
+  body('isVeg')
+    .optional()
+    .isBoolean().withMessage('isVeg must be a boolean value'),
+  body('isPopular')
+    .optional()
+    .isBoolean().withMessage('isPopular must be a boolean value'),
+  body('spiceLevel')
+    .optional()
+    .isIn(['mild', 'medium', 'hot', 'extra-hot'])
+    .withMessage('Invalid spice level'),
+];
 
 // GET all menu items
 router.get('/', async (req, res) => {
@@ -27,8 +62,13 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// POST new menu item (admin)
-router.post('/', async (req, res) => {
+// POST new menu item — admin only
+router.post('/', protect, adminOnly, menuItemRules, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ error: errors.array()[0].msg });
+  }
+
   try {
     const item = new MenuItem(req.body);
     await item.save();
@@ -38,8 +78,13 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT update item
-router.put('/:id', async (req, res) => {
+// PUT update item — admin only
+router.put('/:id', protect, adminOnly, menuItemRules, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ error: errors.array()[0].msg });
+  }
+
   try {
     const item = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(item);
@@ -48,8 +93,8 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-// DELETE item
-router.delete('/:id', async (req, res) => {
+// DELETE item — admin only
+router.delete('/:id', protect, adminOnly, async (req, res) => {
   try {
     await MenuItem.findByIdAndDelete(req.params.id);
     res.json({ message: 'Item deleted' });

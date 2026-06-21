@@ -10,17 +10,25 @@ const CATEGORIES = [
   { id: 'egg-bowls', label: 'Egg Bowls', emoji: '🥣' },
   { id: 'rice', label: 'Rice & Biryani', emoji: '🍚' },
   { id: 'burgers', label: 'Egg Burgers', emoji: '🍔' },
+  { id: 'drinks', label: 'Drinks & Beverages', emoji: '🥤' },
 ];
 
 const Home = () => {
   const [popularItems, setPopularItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  useEffect(() => {
+  const loadPopular = () => {
+    setLoading(true);
+    setError(false);
     fetchMenu({ popular: true })
       .then(res => setPopularItems(res.data))
-      .catch(() => setPopularItems([]))
+      .catch(() => { setPopularItems([]); setError(true); })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadPopular();
   }, []);
 
   return (
@@ -100,6 +108,11 @@ const Home = () => {
           {loading ? (
             <div className="loading-grid">
               {[...Array(4)].map((_, i) => <div key={i} className="skeleton-card" />)}
+            </div>
+          ) : error ? (
+            <div style={{ textAlign: 'center', padding: '40px 0' }}>
+              <p style={{ color: '#999', marginBottom: '12px' }}>😕 Couldn't load items right now</p>
+              <button className="btn-outline" onClick={loadPopular}>Retry</button>
             </div>
           ) : (
             <div className="menu-grid">

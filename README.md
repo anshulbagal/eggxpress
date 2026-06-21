@@ -129,12 +129,16 @@ cd frontend && npm start
 
 ---
 
-## 🔑 Admin Login
+## 🔑 Admin Login & Seeding
 
-- **Username**: `admin`
-- **Password**: `eggxpress123`
+We use database-backed JWT authentication. To seed the admin account in your local database, configure the desired admin credentials inside the `backend/create-admin.js` script (or load them from env variables), and run:
 
-> For production, implement proper JWT auth with bcrypt and a User model.
+```bash
+cd backend
+node create-admin.js
+```
+
+Log in at `/auth` on the frontend using the credentials you configured in that script.
 
 ---
 

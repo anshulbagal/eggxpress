@@ -11,23 +11,30 @@ const CATEGORIES = [
   { id: 'egg-bowls', label: 'Egg Bowls', emoji: '🥣' },
   { id: 'rice', label: 'Rice & Biryani', emoji: '🍚' },
   { id: 'burgers', label: 'Egg Burgers', emoji: '🍔' },
+  { id: 'drinks', label: 'Drinks & Beverages', emoji: '🥤' },
 ];
 
 const Menu = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [search, setSearch] = useState('');
 
   const activeCategory = searchParams.get('category') || 'all';
 
-  useEffect(() => {
+  const loadMenu = () => {
     setLoading(true);
+    setError(false);
     const params = activeCategory !== 'all' ? { category: activeCategory } : {};
     fetchMenu(params)
       .then(res => setItems(res.data))
-      .catch(() => setItems([]))
+      .catch(() => { setItems([]); setError(true); })
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    loadMenu();
   }, [activeCategory]);
 
   const filtered = items.filter(item =>
@@ -81,6 +88,13 @@ const Menu = () => {
         {loading ? (
           <div className="loading-grid">
             {[...Array(6)].map((_, i) => <div key={i} className="skeleton-card" />)}
+          </div>
+        ) : error ? (
+          <div className="no-results">
+            <div>😕</div>
+            <p>Couldn't load the menu</p>
+            <span>Check your connection or try again</span>
+            <button className="btn-primary" style={{ marginTop: '16px' }} onClick={loadMenu}>Retry</button>
           </div>
         ) : filtered.length === 0 ? (
           <div className="no-results">

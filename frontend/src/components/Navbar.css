@@ -167,3 +167,83 @@
 
   .cart-label { display: none; }
 }
+
+/* Auth UI in Navbar */
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-user-name {
+  font-size: 0.85rem;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+.nav-logout {
+  background: transparent;
+  border: 1px solid #333;
+  color: #888;
+  font-size: 0.8rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.nav-logout:hover {
+  border-color: #f87171;
+  color: #f87171;
+}
+
+.nav-login-btn {
+  background: transparent;
+  border: 1px solid #f59e0b;
+  color: #f59e0b !important;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.nav-login-btn:hover {
+  background: #f59e0b;
+  color: #000 !important;
+}
+
+.nav-my-orders {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #a5b4fc !important;
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(165,180,252,0.25);
+  border-radius: 20px;
+  transition: all 0.2s;
+}
+
+.nav-my-orders:hover {
+  background: rgba(165,180,252,0.1);
+  border-color: #a5b4fc;
+}
+
+.nav-admin-btn {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #c4b5fd !important;
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(196,181,253,0.3);
+  border-radius: 20px;
+  transition: all 0.2s;
+  letter-spacing: 0.2px;
+}
+
+.nav-admin-btn:hover {
+  background: rgba(99,102,241,0.15);
+  border-color: #6366f1;
+  color: #a5b4fc !important;
+}

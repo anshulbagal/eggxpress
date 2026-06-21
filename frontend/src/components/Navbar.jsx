@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = ({ onCartOpen }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const { totalItems } = useCart();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   useEffect(() => {
@@ -42,6 +44,18 @@ const Navbar = ({ onCartOpen }) => {
             <span className="cart-label">Cart</span>
             {totalItems > 0 && <span className="cart-badge">{totalItems}</span>}
           </button>
+          {user ? (
+            <div className="nav-user">
+              <span className="nav-user-name">👤 {user.name.split(' ')[0]}</span>
+              <Link to="/my-orders" className="nav-my-orders">My Orders</Link>
+              {user.role === 'admin' && (
+                <Link to="/admin" className="nav-admin-btn">⚙ Admin</Link>
+              )}
+              <button className="nav-logout" onClick={logout}>Logout</button>
+            </div>
+          ) : (
+            <Link to="/auth" className="nav-login-btn">Login</Link>
+          )}
           <button className="burger-btn" onClick={() => setMenuOpen(!menuOpen)}>
             <span></span><span></span><span></span>
           </button>

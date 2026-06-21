@@ -4,3 +4,7 @@ build/
 dist/
 .DS_Store
 backend/.env
+
+# Dev Journal — local only, not for GitHub
+DEV_JOURNAL.html
+DEV_JOURNAL.md

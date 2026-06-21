@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
 
 const CartContext = createContext();
+const CART_KEY = 'eggxpress_cart';
 
 const cartReducer = (state, action) => {
   switch (action.type) {
@@ -30,14 +31,30 @@ const cartReducer = (state, action) => {
       };
     }
     case 'CLEAR':
+      console.log('🧹 CartContext Reducer: CLEAR action received, setting items to empty array');
       return { items: [] };
     default:
       return state;
   }
 };
 
+// Read saved cart from localStorage — fall back to empty if nothing saved or JSON is corrupt
+const loadCart = () => {
+  try {
+    const saved = localStorage.getItem(CART_KEY);
+    return saved ? JSON.parse(saved) : { items: [] };
+  } catch {
+    return { items: [] }; // corrupt JSON — start fresh
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, { items: [] });
+  const [state, dispatch] = useReducer(cartReducer, undefined, loadCart);
+
+  // Sync to localStorage after every state change
+  useEffect(() => {
+    localStorage.setItem(CART_KEY, JSON.stringify(state));
+  }, [state]);
 
   const addItem = (item) => dispatch({ type: 'ADD_ITEM', item });
   const removeItem = (id) => dispatch({ type: 'REMOVE_ITEM', id });

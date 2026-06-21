@@ -82,7 +82,64 @@
 
 .payment-option.selected { border-color: var(--yolk); background: rgba(245,166,35,0.1); }
 .payment-option input { display: none; }
-.pay-icon { font-size: 1.3rem; }
+.pay-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+.pay-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.pay-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.pay-sub {
+  font-size: 0.73rem;
+  color: var(--gray);
+  font-weight: 500;
+}
+
+.pay-check {
+  color: var(--yolk);
+  font-weight: 900;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Razorpay notice bar */
+.razorpay-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(99,102,241,0.08);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: #a5b4fc;
+}
+
+.rz-logo { font-size: 1rem; }
+
+.razorpay-notice strong { color: #c4b5fd; }
+
+.rz-test-badge {
+  margin-left: auto;
+  background: rgba(245,166,35,0.15);
+  border: 1px solid rgba(245,166,35,0.3);
+  color: var(--yolk);
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
 
 .place-order-btn {
   font-size: 1.1rem;
@@ -90,11 +147,34 @@
   border-radius: 14px;
   justify-content: center;
   width: 100%;
+  transition: all 0.25s;
 }
 
 .place-order-btn:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+/* Online pay button — extra glow */
+.pay-online-btn {
+  background: linear-gradient(135deg, #6366f1, #a855f7);
+  box-shadow: 0 4px 20px rgba(99,102,241,0.35);
+}
+
+.pay-online-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4f46e5, #9333ea);
+  box-shadow: 0 6px 28px rgba(99,102,241,0.5);
+  transform: translateY(-2px);
+}
+
+/* Summary payment note */
+.summary-payment-note {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--gray);
+  text-align: center;
 }
 
 /* Summary */
@@ -155,4 +235,117 @@
 
 @media (max-width: 500px) {
   .form-row { grid-template-columns: 1fr; }
+}
+
+/* Promo code section */
+.promo-section {
+  border-top: 1px solid var(--border);
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.promo-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.promo-input-group {
+  display: flex;
+  gap: 8px;
+}
+
+.promo-input-group input {
+  flex: 1;
+  background: var(--shell-light);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: var(--white);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  outline: none;
+  transition: border-color 0.25s;
+}
+
+.promo-input-group input:focus {
+  border-color: var(--yolk);
+}
+
+.btn-promo-apply {
+  background: var(--yolk);
+  color: var(--black);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-promo-apply:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.btn-promo-apply:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.promo-applied-badge {
+  background: rgba(46,204,113,0.1);
+  border: 1px dashed var(--green);
+  border-radius: 8px;
+  padding: 8px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.promo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.promo-applied-code {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--green);
+}
+
+.promo-applied-desc {
+  font-size: 0.72rem;
+  color: var(--gray);
+}
+
+.btn-promo-remove {
+  background: none;
+  border: none;
+  color: var(--gray);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+
+.btn-promo-remove:hover {
+  color: var(--red);
+  background: rgba(255,255,255,0.05);
+}
+
+.promo-discount-row .discount {
+  color: var(--green);
+  font-weight: 700;
 }

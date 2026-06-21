@@ -9,21 +9,51 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.use('/api/menu', require('./routes/menu'));
-app.use('/api/orders', require('./routes/orders'));
-app.use('/api/auth', require('./routes/auth'));
+app.use('/api/menu',    require('./routes/menu'));
+app.use('/api/orders',  require('./routes/orders'));
+app.use('/api/auth',    require('./routes/auth'));
+app.use('/api/payment', require('./routes/payment'));
+app.use('/api/promo',   require('./routes/promo'));
 
-// Connect to MongoDB
+// Connect to MongoDB — server only starts AFTER DB is connected
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/eggxpress';
 
-mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected');
+async function startServer() {
+  try {
+    await mongoose.connect(MONGO_URI, {
+      serverSelectionTimeoutMS: 10000, // fail fast if Atlas unreachable (10s)
+      socketTimeoutMS: 45000,          // drop idle sockets after 45s
+      maxPoolSize: 10,                  // keep up to 10 connections open
+    });
+
+    console.log('✅ MongoDB connected');
+
+    // Log connection drops so you know when they happen
+    mongoose.connection.on('disconnected', () => {
+      console.warn('⚠️  MongoDB disconnected — retrying automatically...');
+    });
+    mongoose.connection.on('reconnected', () => {
+      console.log('✅ MongoDB reconnected');
+    });
+    mongoose.connection.on('error', (err) => {
+      console.error('❌ MongoDB error:', err.message);
+    });
+
     // Seed menu items
     const MenuItem = require('./models/MenuItem');
-    seedMenu(MenuItem);
-  })
-  .catch(err => console.log('MongoDB error:', err));
+    await seedMenu(MenuItem);
+
+    // Only start listening AFTER DB is ready
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
+  } catch (err) {
+    console.error('❌ Failed to connect to MongoDB:', err.message);
+    process.exit(1); // crash hard so process manager/nodemon restarts cleanly
+  }
+}
+
+startServer();
 
 async function seedMenu(MenuItem) {
   const count = await MenuItem.countDocuments();
@@ -172,11 +202,59 @@ async function seedMenu(MenuItem) {
         spiceLevel: 'medium',
         rating: 4.7,
         reviews: 230
+      },
+      // ── Drinks ────────────────────────────────────────────────────────────
+      {
+        name: 'Masala Chai',
+        description: 'Strong, spiced Indian tea brewed with ginger, cardamom, and cinnamon. The perfect companion to your roll.',
+        price: 39,
+        category: 'drinks',
+        image: 'https://images.unsplash.com/photo-1556742031-c6961e8560b0?w=500',
+        isVeg: true,
+        isPopular: true,
+        spiceLevel: 'mild',
+        rating: 4.7,
+        reviews: 410
+      },
+      {
+        name: 'Fresh Lime Soda',
+        description: 'Zingy fresh lime squeezed over chilled soda with a pinch of salt and sugar. Sweet or salted — your choice.',
+        price: 59,
+        category: 'drinks',
+        image: 'https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=500',
+        isVeg: true,
+        isPopular: false,
+        spiceLevel: 'mild',
+        rating: 4.5,
+        reviews: 185
+      },
+      {
+        name: 'Cold Coffee',
+        description: 'Thick, creamy blended cold coffee made with chilled milk and a generous scoop of vanilla ice cream.',
+        price: 89,
+        category: 'drinks',
+        image: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=500',
+        isVeg: true,
+        isPopular: true,
+        spiceLevel: 'mild',
+        rating: 4.6,
+        reviews: 260
+      },
+      {
+        name: 'Mango Lassi',
+        description: 'Thick and refreshing yoghurt-based mango shake, lightly sweetened and garnished with a pinch of cardamom.',
+        price: 79,
+        category: 'drinks',
+        image: 'https://images.unsplash.com/photo-1574349930230-cb2e9b4e4b3a?w=500',
+        isVeg: true,
+        isPopular: false,
+        spiceLevel: 'mild',
+        rating: 4.4,
+        reviews: 142
       }
     ]);
-    console.log('Menu seeded!');
+    console.log('Menu seeded — 16 items including drinks!');
   }
 }
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// (server start moved into startServer() above)

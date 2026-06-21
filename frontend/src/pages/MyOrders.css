@@ -1,0 +1,239 @@
+.my-orders-page {
+  min-height: 100vh;
+  padding: 120px 0 80px;
+  background: var(--shell);
+}
+
+.orders-header {
+  margin-bottom: 32px;
+}
+
+.orders-header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.orders-header h1 span {
+  color: var(--yolk);
+}
+
+.orders-header p {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Skeleton */
+.orders-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-skeleton-card {
+  background: #16161f;
+  border: 1px solid #232330;
+  border-radius: 14px;
+  height: 140px;
+  animation: shimmer 1.5s infinite linear;
+  background-size: 200% 100%;
+  background-image: linear-gradient(90deg, #16161f 25%, #1e1e2e 50%, #16161f 75%);
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Empty state */
+.orders-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+  gap: 12px;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 8px;
+}
+
+.orders-empty h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.orders-empty p {
+  color: var(--gray);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+/* Orders list */
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Order card */
+.order-card {
+  background: #16161f;
+  border: 1px solid #232330;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+.order-card:hover {
+  border-color: rgba(245,166,35,0.3);
+  transform: translateY(-2px);
+}
+
+.order-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #1e1e2a;
+  background: #1c1c28;
+}
+
+.order-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.order-id {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--white);
+  font-family: 'Cascadia Code', 'Fira Code', monospace;
+  letter-spacing: 1px;
+}
+
+.order-date {
+  font-size: 0.75rem;
+  color: var(--gray);
+}
+
+.order-status-badge {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: capitalize;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid;
+  letter-spacing: 0.3px;
+}
+
+/* Items */
+.order-items-list {
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.order-item-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+}
+
+.oi-name {
+  flex: 1;
+  color: #ccc;
+}
+
+.oi-qty {
+  color: var(--gray);
+  font-size: 0.8rem;
+  width: 28px;
+  text-align: center;
+}
+
+.oi-price {
+  color: var(--white);
+  font-weight: 600;
+  width: 70px;
+  text-align: right;
+}
+
+/* Footer */
+.order-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid #1e1e2a;
+}
+
+.order-total {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+.order-total strong {
+  font-size: 1.1rem;
+  color: var(--yolk);
+  font-weight: 800;
+}
+
+.order-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pay-chip {
+  font-size: 0.75rem;
+  color: #888;
+  background: #1e1e2a;
+  border: 1px solid #2a2a3a;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.btn-track {
+  background: transparent;
+  border: 1px solid rgba(245,166,35,0.4);
+  color: var(--yolk);
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-track:hover {
+  background: var(--yolk);
+  color: var(--shell);
+  border-color: var(--yolk);
+}
+
+@media (max-width: 600px) {
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .order-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
