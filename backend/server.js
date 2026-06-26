@@ -14,6 +14,7 @@ app.use('/api/orders',  require('./routes/orders'));
 app.use('/api/auth',    require('./routes/auth'));
 app.use('/api/payment', require('./routes/payment'));
 app.use('/api/promo',   require('./routes/promo'));
+app.use('/api/chat',    require('./routes/chat'));
 
 // Connect to MongoDB — server only starts AFTER DB is connected
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/eggxpress';

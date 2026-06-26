@@ -36,6 +36,7 @@ const Navbar = ({ onCartOpen }) => {
           <Link to="/track" className={location.pathname === '/track' ? 'active' : ''}>Track Order</Link>
           <Link to="/about" className={location.pathname === '/about' ? 'active' : ''}>About</Link>
           <Link to="/contact" className={location.pathname === '/contact' ? 'active' : ''}>Contact</Link>
+          <Link to="/support" className={location.pathname === '/support' ? 'active' : ''}>Support</Link>
         </div>
 
         <div className="nav-actions">

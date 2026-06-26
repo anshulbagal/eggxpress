@@ -16,6 +16,7 @@ import Auth from './pages/Auth';
 import MyOrders from './pages/MyOrders';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
+import CustomerSupport from './pages/CustomerSupport';
 import './index.css';
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
             <Route path="/auth"      element={<Auth />} />
             <Route path="/my-orders" element={<MyOrders />} />
             <Route path="/admin"     element={<AdminDashboard />} />
+            <Route path="/support"   element={<CustomerSupport />} />
             <Route path="*"          element={<NotFound />} />
           </Routes>
           <Footer />
